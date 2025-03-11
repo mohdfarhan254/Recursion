@@ -1,0 +1,30 @@
+
+class Solution {
+  public static List<String> generateBinaryStrings(int n) {
+    // code here
+    /*Base Case: If s.length() == n, the string is complete and is added to the list.
+      
+      Recursive Calls:
+      Always add '0' (since '0' can be followed by either '0' or '1').
+      Add '1' only if the last character is '0' 
+      (to prevent consecutive 1s).
+      The initial call generate(n, lst, "")
+      ensures that the function starts with an empty string.
+
+    */
+        List<String> lst = new ArrayList<>();
+        generate(n, lst, "");  // Start with an empty string
+        return lst;
+    }
+  
+    static void generate(int n, List<String> lst, String s) {
+        if (s.length() == n) {
+            lst.add(s);
+            return;
+        }
+        generate(n, lst, s + "0"); // Always add '0'
+        if (s.isEmpty() || s.charAt(s.length() - 1) == '0') {
+            generate(n, lst, s + "1"); // Add '1' only if last character is '0'
+        }
+    }
+}
