@@ -1,0 +1,30 @@
+class Solution {
+    public double myPow(double x, int n) {
+        
+      /*  Approach:
+          Convert n to positive (long type to handle edge cases like Integer.MIN_VALUE).
+          Use recursive binary exponentiation:
+          If n == 0, return 1 (base case).
+          Compute pow(x, n/2), then square it.
+          If n is odd, multiply the result by x.
+          If n was originally negative, return 1.0 / result.
+      */
+        long nn = n;  // Convert to long to handle edge case (n = Integer.MIN_VALUE)
+        if (nn < 0) nn = -nn; // Make exponent positive
+        
+        double ans = power(x, nn);
+        
+        return (n < 0) ? 1.0 / ans : ans;  // Handle negative exponent
+    }
+
+    private double power(double x, long n) {
+        if (n == 0) return 1;  // Base case
+
+        double half = power(x, n / 2);
+        double result = half * half;  // Square the half result
+
+        if (n % 2 == 1) result *= x; // If odd, multiply by x
+        
+        return result;
+    }
+}
