@@ -1,0 +1,42 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+
+     /*
+     🔹 Explanation of Recursive Calls
+        1.open → Tracks the number of ( added so far.
+        We can add ( only if open < n.
+       
+        2.close → Tracks the number of ) added so far.
+        We can add ) only if close < open (to maintain balance).
+        
+        3.Base Case:
+        When s.length() == 2 * n, the string is complete, so we add it to the list.
+
+        At every recursive step, we have two choices:
+
+        1️⃣ Add ( if we haven't used all n open brackets.
+        2️⃣ Add ) only if it won't make the sequence invalid (i.e., close < open).
+
+        If we reach a valid sequence of 2 * n characters,
+         we add it to the result list. Otherwise, we continue exploring.
+     */
+        List<String> lst = new ArrayList<>();
+
+        helper(0, 0, n, "", lst);
+        return lst;
+    }
+
+    void helper(int open, int close, int n, String s, List<String> lst) {
+        if (s.length() == n * 2) {
+            lst.add(s);
+            return;
+        }
+        if (open < n) {
+            helper(open + 1, close, n, s + "(", lst);
+
+        }
+        if (close < open) {
+            helper(open, close + 1, n, s + ")", lst);
+        }
+    }
+}
