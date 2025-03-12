@@ -1,0 +1,57 @@
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+    
+     /*
+    ✅ Approach: Backtracking with Sorting & Duplicate Handling
+
+    - Sort the array to handle duplicate numbers easily.
+    - Use **backtracking** to explore all possible unique combinations.
+    - **Each number can be used only once**, so we increment `i+1` in recursive calls.
+    - **Skip duplicate numbers** using `(i > idx && arr[i] == arr[i - 1])` to prevent duplicate combinations.
+
+    🔹 Time Complexity: **O(2^N)** (Worst case: including/excluding each element)
+    🔹 Space Complexity: **O(N)** (Recursion depth)
+*/
+
+        List<List<Integer>> result = new ArrayList<>();
+        
+        // Step 1: Sort the array to handle duplicates efficiently
+        Arrays.sort(candidates);
+        
+        // Step 2: Start backtracking from index 0
+        backtrack(0, candidates, target, new ArrayList<>(), result);
+
+        return result;
+    }
+
+    private void backtrack(int idx, int[] arr, int sum, List<Integer> tempList, List<List<Integer>> result) {
+        // ✅ Base Case: If sum becomes 0, we found a valid combination
+        if (sum == 0) {
+            result.add(new ArrayList<>(tempList));
+            return;
+        }
+
+        // 🔄 Iterate through the remaining elements
+        for (int i = idx; i < arr.length; i++) {
+            // i > idx ensures that the first occurrence of an element is always included.
+            // next Subsequent occurrences (if duplicate) are skipped.
+            if (i > idx && arr[i] == arr[i - 1]) {
+                continue;
+            }
+
+            // ⏹ Stop the loop if the current element is greater than the remaining sum
+            if (arr[i] > sum) {
+                break;
+            }
+
+            // ✅ Include the current element
+            tempList.add(arr[i]);
+
+            // 🔁 Recursive call: Move to the next index (i+1) since each number is used only once
+            backtrack(i + 1, arr, sum - arr[i], tempList, result);
+
+            // 🔙 Backtrack: Remove the last element before exploring the next possibility
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
