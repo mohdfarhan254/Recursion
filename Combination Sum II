@@ -1,6 +1,17 @@
 class Solution {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-    
+/*
+🔹 Summary of How Inclusion & Exclusion Work in the for Loop Approach
+Each recursive call adds an element (arr[i]) and explores all its combinations.
+When backtracking happens, the loop moves forward (i+1), ensuring exclusion of the previous element.
+Unlike a binary tree, this recursion tree is irregular because:
+Each node has a different number of children based on the for loop range.
+Some branches terminate early due to pruning (if (arr[i] > sum) break;).
+Duplicates are skipped (if (i > idx && arr[i] == arr[i-1]) continue;).
+The recursion does not have a balanced structure since each recursive call progresses differently based on the remaining sum and loop index.
+Each recursive call starts fresh from i+1, naturally preventing previously chosen elements from appearing again.
+💡 Key Takeaway: The for loop inherently ensures inclusion (by picking arr[i] and recursing) and exclusion (by moving to i+1 after backtracking
+*/
      /*
     ✅ Approach: Backtracking with Sorting & Duplicate Handling
 
