@@ -1,0 +1,50 @@
+
+// User function Template for Java//User function Template for Java
+class Solution {
+    public ArrayList<Integer> subsetSums(int[] arr) {
+        // code here
+    /*
+    The local variable (sum) does not hold its previous value 
+    when backtracking because each recursive call gets its own copy of sum.
+
+    🔹 How Local Variables Work in Recursion?
+       Each recursive call creates a new stack frame,
+       meaning the function gets its own copy of sum.
+       When a recursive call finishes and returns,
+       the previous function call resumes with its original value of sum.
+       Since we are passing sum + nums.get(i) as an argument 
+       instead of modifying sum directly,
+       the previous value of sum remains intact when the function backtracks.
+    */
+      /*
+        🔹 Steps Explanation
+           Base Case is Implicit:
+
+           We add the current sum to the result list before iterating further.
+           Backtracking with a for loop:
+
+           Iterate from start index to the end of the array.
+           Add the current element to sum and make a recursive call for i + 1.
+           This ensures every subset is generated 
+           without separate pick/not-pick calls.
+           Backtracking Step:
+
+           Since we are passing sum + nums.get(i) in the recursive call, 
+           we don’t need to explicitly remove anything
+           (unlike in Combination Sum problems).
+        */
+        ArrayList<Integer> lst = new ArrayList<>();
+        backtrack(arr, 0, 0, lst);
+        return lst;
+    }
+
+    void backtrack(int arr[], int start, int sum, ArrayList<Integer> lst) {
+        // Store the current subset sum
+        lst.add(sum);
+
+        // Iterate over remaining elements
+        for (int i = start; i < arr.length; i++) {
+            backtrack(arr, i + 1, sum + arr[i], lst);
+        }
+    }
+}
