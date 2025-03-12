@@ -1,0 +1,36 @@
+/*
+📌 Understanding the Question: Combination Sum
+👉 Problem Statement:
+You are given an array of distinct integers (candidates[]) and a target value (target). You need to find all unique combinations in the array where the numbers sum up to target.
+
+📌 Rules:
+✔ You can use the same number multiple times (unlimited frequency).
+✔ The order of numbers in the combination doesn't matter (set-based, not sequence-based).
+✔ No duplicate combinations should be included in the output.
+ */
+     
+    List<List<Integer>> list = new ArrayList<>();
+    Arrays.sort(candidates);
+    backtrack(list, new ArrayList<>(), candidates, target, 0);
+    return list;
+}
+
+private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums, int remain, int start){
+    if(remain < 0) return;
+    // We are storing a reference to tempList, not a new copy.
+    // Since tempList is modified in further recursion calls,
+    // all stored results will be modified.
+    else if(remain == 0) list.add(new ArrayList<>(tempList));
+    else{ 
+        for(int i = start; i < nums.length; i++){
+            if(nums[i] > remain)// 🔹 Prune: Stop if current number exceeds target sum
+              break;
+              
+            tempList.add(nums[i]);
+            backtrack(list, tempList, nums, remain - nums[i], i); // not i + 1 because we can reuse same elements
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+}
+    
