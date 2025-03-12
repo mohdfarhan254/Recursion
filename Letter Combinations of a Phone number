@@ -1,0 +1,68 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        
+   /*
+   📌 Explanation of the Code (Letter Combinations of a Phone Number)
+      1️⃣ Understanding the Problem
+Each digit (2-9) maps to a set of letters like a phone keypad.
+Example: 2 → "abc", 3 → "def", 4 → "ghi", etc.
+We need to generate all possible letter combinations that the input digit string could represent.
+2️⃣ Approach Used – Backtracking
+We iterate over each digit, mapping it to possible letters.
+Recursively build letter combinations by adding one letter at a time.
+If we reach the end of the digit string, we add the formed string to the result list.
+We backtrack to explore other letter choices by removing the last added character
+
+⏳ Time & Space Complexity Analysis
+📌 Time Complexity: O(4ⁿ)
+Each digit in digits maps to a set of letters:
+Digits 2-6, 8 → 3 letters each
+Digits 7, 9 → 4 letters each
+In the worst case, every digit could have 4 choices (like 7 and 9).
+If the input string has N digits, we generate O(4ⁿ) combinations.
+Each combination is stored in the list (O(1) per addition).
+Final Complexity: O(4ⁿ) (Exponential Growth).
+📌 Space Complexity: O(N)
+The recursion depth is at most N (length of digits).
+StringBuilder (O(N)) stores characters during recursion.
+Output list (O(4ⁿ)) stores all combinations.
+Final Complexity:
+Without considering output storage: O(N)
+Including output storage: O(4ⁿ) (for worst-case output size).
+   */
+        List<String> lst = new ArrayList<>();
+
+        // Edge case: If input is empty, return an empty list
+        if (digits.length() == 0) 
+            return lst;
+
+        // Mapping of digits to corresponding letters
+        String[] keys = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+        // StringBuilder to efficiently build combinations
+        StringBuilder sb = new StringBuilder();
+
+        // Start backtracking from index 0
+        backtrack(digits, 0, keys, lst, sb);
+        return lst;
+    }
+
+    private void backtrack(String digits, int idx, String[] keys, List<String> lst, StringBuilder sb) {
+        // Base case: If we have processed all digits, store the combination
+        if (idx == digits.length()) {
+            lst.add(sb.toString());
+            return;
+        }
+
+        // Get the digit and corresponding letter choices
+        int digit = digits.charAt(idx) - '0';
+        String key = keys[digit];
+
+        // Iterate through all possible letters for the current digit
+        for (int i = 0; i < key.length(); i++) {
+            sb.append(key.charAt(i));  // Choose a letter
+            backtrack(digits, idx + 1, keys, lst, sb);  // Move to the next digit
+            sb.deleteCharAt(sb.length() - 1);  // Undo the choice (backtrack)
+        }
+    }
+}
